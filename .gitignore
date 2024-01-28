@@ -1,0 +1,6 @@
+/venv
+.vscode
+ShopsScraper/app/__pycache__
+ShopsScraper/ShopsScraper/__pycache__
+ShopsScraper/app/migrations/__pycache__
+ShopsScraper/app/Scraping/__pycache__

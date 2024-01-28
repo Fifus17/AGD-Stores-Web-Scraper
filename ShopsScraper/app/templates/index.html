@@ -1,0 +1,20 @@
+<table>
+    <tr>
+        <th>Photo</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Review</th>
+        <th>Link</th>
+        <th>Shop</th>
+    </tr>
+    {% for p in products %}
+    <tr>
+        <td><img src="{{ p.photo }}" alt="photo" style="height: 100px; width: 100px;"></td>
+        <td>{{ p.name }}</td>
+        <td>{{ p.price}} zł</td>
+        <td>{{ p.review }}</td>
+        <td><a href="{{ p.link }}">{{p.link}}</a></td>
+        <td><img src="{{ p.shop }}" alt="shop" style="width: 200px;"></td>
+    </tr>
+    {% endfor %}
+</table>
