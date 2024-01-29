@@ -1,5 +1,8 @@
 from abc import ABC, abstractmethod
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 import threading
 
 class Scraper(ABC):
@@ -37,9 +40,11 @@ class Scraper(ABC):
         pass
 
     def setup_driver(self):
-        options = webdriver.ChromeOptions()
-        options.headless = True
-        return webdriver.Chrome(options=options)
+        options = Options()
+        # options.add_argument('--no-sandbox')
+        # options.add_argument('--headless')
+        # options.add_argument('--disable-dev-shm-usage')
+        return webdriver.Chrome(options=options, service=Service(ChromeDriverManager().install()))
 
     def close_driver(self):
         self.driver.quit()

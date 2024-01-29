@@ -59,7 +59,9 @@ class RTVEuroScraper(Scraper):
 
         while True:
             try:
-                load_more_button = self.driver.find_element(By.XPATH, '//a[contains(@class, "list-load-more__button")]')  # Adjust based on the actual class of the button
+                load_more_button = WebDriverWait(self.driver, 2).until(
+                    EC.element_to_be_clickable((By.XPATH, '//a[contains(@class, "list-load-more__button")]'))
+                )
                 ActionChains(self.driver).move_to_element(load_more_button).click().perform()
                 time.sleep(0.5)  # Wait for the content to load
             except Exception as e:
@@ -87,6 +89,8 @@ class RTVEuroScraper(Scraper):
             product_photo = product_container.find('img')['src']
             product_link = 'https://www.euro.com.pl' + product_container.find('a', class_='box-medium__link')['href']
             product_avg_review = product_container.find('span', class_='client-rate__rate').text.strip() if product_container.find('span', class_='client-rate__rate') else 'No reviews'
+            product_no_reviews = product_container.find('span', class_='client-rate__opinions').text.strip().split(' ')[0] if product_container.find('span', class_='client-rate__opinions') else '0'
+            print(product_container.find('span', class_='client-rate__opinions'))
 
             items.append({
                 'name': product_name,
@@ -94,6 +98,7 @@ class RTVEuroScraper(Scraper):
                 'photo': product_photo,
                 'link': product_link,
                 'review': product_avg_review,
+                'no_reviews': product_no_reviews,
                 'shop': "https://www.euro.com.pl/static-assets/logo.webp"
             })
 

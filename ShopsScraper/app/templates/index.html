@@ -1,9 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .search-div {
+            width: 100%;
+            margin-bottom: 20px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        table {
+            width: 80%;
+            margin: auto; 
+            border-collapse: collapse; 
+            border: 1px solid #ddd; 
+        }
+
+        th, td {
+            border: 1px solid #ddd; 
+            padding: 8px; 
+            text-align: left;
+        }
+
+        td:nth-child(4) {
+            text-align: center;
+        }
+
+        td:nth-child(3) {
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2; 
+        }
+
+        img {
+            display: block; 
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+
+<div class="search-div">
+    <form action="/" method="post">
+        {% csrf_token %}
+        <label for="search">Search:</label>
+        <input type="text" id="search" name="search" value="{{ search }}">
+        <input type="submit" value="Submit">
+    </form>
+    
+</div>
+
 <table>
     <tr>
         <th>Photo</th>
         <th>Name</th>
-        <th>Price</th>
-        <th>Review</th>
+        {% if current_sort == 'price' and sort_direction == '1' %}
+        <th><a href="?sort=price&sort_direction=0">Price</a></th>
+        {% else %}
+        <th><a href="?sort=price&sort_direction=1">Price</a></th>
+        {% endif %}
+        {% if current_sort == 'review' and sort_direction == '1' %}
+        <th><a href="?sort=review&sort_direction=0">Average review</a></th>
+        {% else %}
+        <th><a href="?sort=review&sort_direction=1">Average review</a></th>
+        {% endif %}
+        {% if current_sort == 'no_review' and sort_direction == '1' %}
+        <th><a href="?sort=no_review&sort_direction=0">Number of reviews</a></th>
+        {% else %}
+        <th><a href="?sort=no_review&sort_direction=1">Number of reviews</a></th>
+        {% endif %}
         <th>Link</th>
         <th>Shop</th>
     </tr>
@@ -11,10 +81,14 @@
     <tr>
         <td><img src="{{ p.photo }}" alt="photo" style="height: 100px; width: 100px;"></td>
         <td>{{ p.name }}</td>
-        <td>{{ p.price}} zł</td>
+        <td style="width: 80px;">{{ p.price }} zł</td>
         <td>{{ p.review }}</td>
-        <td><a href="{{ p.link }}">{{p.link}}</a></td>
+        <td>{{ p.no_reviews }}</td>
+        <td><a href="{{ p.link }}">{{ p.link }}</a></td>
         <td><img src="{{ p.shop }}" alt="shop" style="width: 200px;"></td>
     </tr>
     {% endfor %}
 </table>
+
+</body>
+</html>
